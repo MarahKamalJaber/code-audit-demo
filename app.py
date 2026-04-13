@@ -1,13 +1,21 @@
-
 import sqlite3
 
-conn = sqlite3.connect("test.db")
-cursor = conn.cursor()
+def login():
+    conn = sqlite3.connect("test.db")
+    cursor = conn.cursor()
 
-user_input = input("Enter username: ")
+    username = input("Enter username: ")
+    password = input("Enter password: ")
 
-# ❌ Vulnerable query (SQL Injection)
-query = "SELECT * FROM users WHERE name = '" + user_input + "'"
+    # ❌ SQL Injection vulnerability
+    query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'"
 
-cursor.execute(query)
-print("Query executed!")
+    cursor.execute(query)
+    result = cursor.fetchall()
+
+    if result:
+        print("Login success")
+    else:
+        print("Login failed")
+
+login()
